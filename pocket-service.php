@@ -118,8 +118,12 @@ function Keyring_Service_Pocket() {
 				'access_token' => $this->get_token()->token,
 				'count' => 1,
 			);
-			$url = add_query_arg( $args, 'https://api.del.icio.us/v1/posts/all?results=1' );
+
+			$url = add_query_arg( $args, 'https://getpocket.com/v3/get' );
 			$response = $this->request( $url );
+
+			l( $response );
+
 			if ( ! Keyring_Util::is_error( $response ) ) {
 				return true;
 			}
