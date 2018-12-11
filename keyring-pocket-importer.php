@@ -3,7 +3,7 @@
 /*
 Plugin Name: Keyring Pocket Importer
 Plugin URI: http://roccotripaldi.com
-Description: Imports your data from Pocket ( getpocket.com )
+Description: Imports your saved links from Pocket ( getpocket.com )
 Version: 1.0.0
 Author: Rocco Tripaldi
 Author URI: http://roccotripaldi.com/

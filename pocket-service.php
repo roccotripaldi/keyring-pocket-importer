@@ -42,7 +42,7 @@ function Keyring_Service_Pocket() {
 			echo '<li>' . __( "Select <strong>Retrieve</strong> for Permissions, and <strong>Web</strong> for Platforms.", 'keyring' ) . '</li>';
 			echo '<li>' . __( "Accept Terms of Service and click <strong>CREATE APPLICATION</strong>", 'keyring' ) . '</li>';
 			echo '</ol>';
-			echo '<p>' . __( "Once you're done configuring your app, copy and paste your <strong>Consumer Key</strong> into App Key field. Leave the rest of the fields blank.", 'keyring' ) . '</p>';
+			echo '<p>' . __( "Once you're done configuring your app, copy and paste your <strong>Consumer Key</strong> into API Key field. Leave the rest of the fields blank.", 'keyring' ) . '</p>';
 		}
 
 		function is_configured() {
@@ -110,6 +110,21 @@ function Keyring_Service_Pocket() {
 
 		function get_display( Keyring_Access_Token $token ) {
 			return $token->get_meta( 'name' );
+		}
+
+		function test_connection() {
+			$args = array(
+				'consumer_key' => $this->key,
+				'access_token' => $this->get_token()->token,
+				'count' => 1,
+			);
+			$url = add_query_arg( $args, 'https://api.del.icio.us/v1/posts/all?results=1' );
+			$response = $this->request( $url );
+			if ( ! Keyring_Util::is_error( $response ) ) {
+				return true;
+			}
+
+			return $response;
 		}
 	}
 }
