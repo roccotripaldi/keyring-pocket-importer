@@ -20,7 +20,6 @@ function Keyring_Service_Pocket() {
 			$this->set_endpoint( 'request_token', 'https://getpocket.com/v3/oauth/request', 'POST' );
 			$this->set_endpoint( 'authorize',     'https://getpocket.com/auth/authorize',     'GET'  );
 			$this->set_endpoint( 'access_token',  'https://getpocket.com/v3/oauth/authorize',  'POST' );
-			$this->set_endpoint( 'get', 'https://getpocket.com/v3/get', 'GET' );
 
 			$creds         = $this->get_credentials();
 			$this->key     = $creds['key'];
@@ -33,7 +32,6 @@ function Keyring_Service_Pocket() {
 			add_filter( 'keyring_pocket_request_token_params', array( $this, 'request_token_params' ), 10, 1 );
 			add_filter( 'keyring_pocket_verify_token_params', array( $this, 'verify_token_params' ), 10, 1 );
 			add_filter( 'keyring_pocket_verify_token_post_params', array( $this, 'verify_token_post_params' ), 10, 1 );
-			add_filter( 'keyring_access_token_meta', array( $this, 'access_token_meta' ), 10, 3 );
 		}
 
 		function basic_ui_intro() {
@@ -96,16 +94,23 @@ function Keyring_Service_Pocket() {
 			);
 		}
 
-		function access_token_meta( $meta, $name, $token ) {
-			if ( 'pocket' === $name && isset( $token['username'] ) ) {
-				return array(
-					'type' => 'access',
-					'username' => $token['username']
+		function build_token_meta( $token ) {
+			if ( ! isset( $token['username'] ) || empty( $token['username'] ) ) {
+				$meta = array();
+			} else {
+				$meta = array(
+					'user_id'  => $token['username'],
+					'username' => $token['username'],
+					'name'     => $token['username']
 				);
 			}
-			return $meta;
+
+			return apply_filters( 'keyring_access_token_meta', $meta, $this->get_name(), $token, null, $this );
 		}
 
+		function get_display( Keyring_Access_Token $token ) {
+			return $token->get_meta( 'name' );
+		}
 	}
 }
 
