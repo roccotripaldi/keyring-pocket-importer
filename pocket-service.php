@@ -122,8 +122,6 @@ function Keyring_Service_Pocket() {
 			$url = add_query_arg( $args, 'https://getpocket.com/v3/get' );
 			$response = $this->request( $url );
 
-			l( $response );
-
 			if ( ! Keyring_Util::is_error( $response ) ) {
 				return true;
 			}
