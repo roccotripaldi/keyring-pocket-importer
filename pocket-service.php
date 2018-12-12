@@ -84,12 +84,12 @@ function Keyring_Service_Pocket() {
 		}
 
 		function verify_token_params( $params ) {
-			return json_encode( array( 'consumer_key' => $params['client_id'], 'code' => $params['code'] ) );
+			return array( 'consumer_key' => $params['client_id'], 'code' => $params['code'] );
 		}
 
 		function verify_token_post_params( $params ) {
 			return array(
-				'headers' => array( 'Content-Type' => 'application/json', 'X-Accept' => 'application/json' ),
+				'headers' => array( 'Content-Type' => 'application/x-www-form-urlencoded; charset=UTF-8', 'X-Accept' => 'application/json' ),
 				'body' => $params['body']
 			);
 		}
