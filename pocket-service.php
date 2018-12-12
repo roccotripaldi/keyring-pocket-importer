@@ -101,7 +101,8 @@ function Keyring_Service_Pocket() {
 				$meta = array(
 					'user_id'  => $token['username'],
 					'username' => $token['username'],
-					'name'     => $token['username']
+					'name'     => $token['username'],
+					'picture'  => plugins_url() . '/keyring-pocket-importer/images/pocket.png',
 				);
 			}
 
