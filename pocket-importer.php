@@ -165,10 +165,18 @@ function Keyring_Pocket_Importer() {
 				// Apply selected category
 				$post_category = array( $this->get_option( 'category' ) );
 
-				// Figure out tags
+				// Merge link's tags with with selected tags
 				$tags = isset( $link->tags ) ?
 					array_keys( (array) $link->tags ) :
 					array();
+
+				if ( isset( $link->tags ) ) {
+					$tags = array_merge( array_keys( (array) $link->tags ), $tags );
+				}
+
+				if ( ! empty( $this->get_option( 'tags' ) ) ) {
+					$tags = array_unique( array_merge( $this->get_option( 'tags' ), $tags ) );
+				}
 
 				$post_content = sprintf(
 					'<p><a href="%s" class="pocket-title">%s</a></p>',
