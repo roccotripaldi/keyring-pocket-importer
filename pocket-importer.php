@@ -185,15 +185,23 @@ function Keyring_Pocket_Importer() {
 				);
 
 				if( $link->has_image ) {
-					$src = $link->image->src;
-					$post_content .= sprintf(
-						'<p><a href="%s"><img src="%s" alt="%s" /></a></p>',
-						esc_url( $href, null, 'href' ),
-						esc_url( $src, null, 'src' ),
-						esc_attr( $post_title )
-					);
-				}
+					$img = false;
+					if ( isset( $link->image ) ) {
+						$img = $link->image;
+					} else if ( isset( $link->images ) ) {
+						$images = (array) $link->images;
+						$img = array_shift( $images );
+					}
 
+					if ( $img ) {
+						$post_content .= sprintf(
+							'<p><a href="%s"><img src="%s" alt="%s" /></a></p>',
+							esc_url( $href, null, 'href' ),
+							esc_url( $img->src, null, 'src' ),
+							esc_attr( $post_title )
+						);
+					}
+				}
 
 				// Other bits
 				$post_author   = $this->get_option( 'author' );
